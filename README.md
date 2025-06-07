@@ -7,7 +7,7 @@ The minimum supported version is Windows 10 22H2, no guarantees on anything olde
 
 Linux builds are targetting RHEL/CentOS 8 (glibc-2.28 + linux-4.18) and anything more recent.
 
-## Auto-Builds
+## Auto-Builds  
 
 Builds run daily at 12:00 UTC (or GitHubs idea of that time) and are automatically released on success.
 
