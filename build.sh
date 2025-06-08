@@ -35,15 +35,21 @@ cat <<EOF >"$BUILD_SCRIPT"
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
     
-    # Add execute permissions
-    chmod +x configure
-    chmod +x ffbuild/version.sh
+    # Add execute permissions to all shell scripts
+    find . -type f -name "*.sh" -exec chmod +x {} \;
+    find . -type f -name "configure" -exec chmod +x {} \;
+    chmod -R +x ffbuild/
 
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \
         --extra-cflags="\$FF_CFLAGS" --extra-cxxflags="\$FF_CXXFLAGS" --extra-libs="\$FF_LIBS" \
         --extra-ldflags="\$FF_LDFLAGS" --extra-ldexeflags="\$FF_LDEXEFLAGS" \
         --cc="\$CC" --cxx="\$CXX" --ar="\$AR" --ranlib="\$RANLIB" --nm="\$NM" \
         --extra-version="\$(date +%Y%m%d)"
+
+    # Ensure permissions again after configure
+    find . -type f -name "*.sh" -exec chmod +x {} \;
+    chmod -R +x ffbuild/
+    
     make -j\$(nproc) V=1
     make install install-doc
 EOF
